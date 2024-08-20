@@ -30,5 +30,13 @@ public class APIService
             Vendors = vendors ?? new List<string>()
         };
     }
+
+    public async Task<DriversResponse> GetDriversAsync(string vendorName)
+    {
+        var json = await _httpClient.GetStringAsync($"{BASE_URL}/drivers?page=0&size=100000&status=APPROVED&status=UPLOADED&vendorName=\"{vendorName}\"");
+        var response = JsonSerializer.Deserialize<DriversResponse>(json, _serializerOptions);
+
+        return response!;
+    }
 }
 

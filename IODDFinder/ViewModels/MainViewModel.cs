@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using IODDFinder.Services;
+using IODDFinder.Views;
 
 namespace IODDFinder.ViewModels;
 
@@ -30,7 +31,12 @@ public class MainViewModel : ObservableObject
     public string? SelectedVendor
     {
         get => null;
-        set => SetProperty(ref _selectedVendor, value);
+        set
+        {
+            SetProperty(ref _selectedVendor, value);
+            OnPropertyChanged(nameof(SelectedVendor)); // to fix selected item on back navigation
+            Shell.Current.GoToAsync($"{nameof(ProductsView)}?vendor={_selectedVendor}");
+        }
     }
 
     public MainViewModel(APIService apiService)

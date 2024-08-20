@@ -13,7 +13,6 @@ public partial class MainView : ContentPage
 		InitializeComponent();
 
         _vm = vm;
-
         BindingContext = _vm;
     }
 

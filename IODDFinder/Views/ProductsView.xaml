@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:IODDFinder.ViewModels"
+             xmlns:models="clr-namespace:IODDFinder.Models"
+             x:Class="IODDFinder.Views.ProductsView"
+             x:DataType="viewmodels:ProductsViewModel"
+             Title="{Binding Vendor}">
+     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <SearchBar
+            Background="White"
+            Text="{Binding SearchText}"
+            Placeholder="Search product..." />
+
+        <ListView
+            Grid.Row="1"
+            ItemsSource="{Binding Contents}"
+            SelectedItem="{Binding SelectedContent, Mode=TwoWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ImageCell
+                        x:DataType="models:Content"
+                        ImageSource="{Binding Icon}"
+                        Detail="{Binding DeviceId, StringFormat='Device id: {0}'}"
+                        DetailColor="Gray"
+                        Text="{Binding ProductName}"
+                        TextColor="#262626"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </Grid>
+</ContentPage>

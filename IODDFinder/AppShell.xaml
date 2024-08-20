@@ -11,7 +11,7 @@
     <ShellContent
         Title="Vendors"
         ContentTemplate="{DataTemplate views:MainView}"
-        Route="MainPage" />
+        Route="MainView" />
 
 </Shell>
 
