@@ -1,0 +1,34 @@
+name: MAUI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+env:
+    DOTNETVERSION: 8.0.x
+
+jobs:
+  buildiAndroid:
+    runs-on: macos-latest
+    environment: RELEASE
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET SDK ${{env.DOTNETVERSION}}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version:  '${{env.DOTNETVERSION}}'
+
+      - name: Install .NET MAUI
+        shell: bash
+        run: |
+          dotnet nuget locals all --clear 
+          dotnet workload install maui
+    
+      - name: Restore dependencies
+        run: dotnet restore
