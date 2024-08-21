@@ -33,4 +33,9 @@ jobs:
       - name: Update project version
         run: |
           sed -i.back 's|<ApplicationVersion>\(.*\)</ApplicationVersion>|<ApplicationVersion>${{ github.run_number }}</ApplicationVersion>|g' './IODDFinder/IODDFinder.csproj'
-          echo < './IODDFinder/IODDFinder.csproj'
+          cat './IODDFinder/IODDFinder.csproj'
+
+      - name: Build Android App
+        shell: bash
+        run: |
+          dotnet publish -f net8.0-android -c Release
