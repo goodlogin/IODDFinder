@@ -25,10 +25,12 @@ jobs:
           dotnet-version:  '${{env.DOTNETVERSION}}'
 
       - name: Install .NET MAUI
-        shell: bash
-        run: |
-          dotnet nuget locals all --clear 
-          dotnet workload install maui
+        run: dotnet workload install maui
     
       - name: Restore dependencies
         run: dotnet restore
+
+      - name: Update project version
+        run: |
+          sed -i.back 's|<ApplicationVersion>\(.*\)</ApplicationVersion>|<ApplicationVersion>\${{ github.run_number }}</ApplicationVersion>|g' './IODDFinder/IODDFinder.csproj'
+          echo < './IODDFinder/IODDFinder.csproj'
