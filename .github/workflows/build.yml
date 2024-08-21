@@ -32,5 +32,5 @@ jobs:
 
       - name: Update project version
         run: |
-          sed -i.back 's|<ApplicationVersion>\(.*\)</ApplicationVersion>|<ApplicationVersion>\${{ github.run_number }}</ApplicationVersion>|g' './IODDFinder/IODDFinder.csproj'
+          sed -i.back 's|<ApplicationVersion>\(.*\)</ApplicationVersion>|<ApplicationVersion>${{ github.run_number }}</ApplicationVersion>|g' './IODDFinder/IODDFinder.csproj'
           echo < './IODDFinder/IODDFinder.csproj'
