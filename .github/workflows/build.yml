@@ -14,7 +14,6 @@ env:
 jobs:
   buildiAndroid:
     runs-on: macos-latest
-    environment: RELEASE
     
     steps:
       - uses: actions/checkout@v4
@@ -35,7 +34,8 @@ jobs:
           sed -i.back 's|<ApplicationVersion>\(.*\)</ApplicationVersion>|<ApplicationVersion>${{ github.run_number }}</ApplicationVersion>|g' './IODDFinder/IODDFinder.csproj'
           cat './IODDFinder/IODDFinder.csproj'
 
+      - name: Build iOS App
+        run: dotnet publish -f net8.0-ios -c Release
+
       - name: Build Android App
-        shell: bash
-        run: |
-          dotnet publish -f net8.0-android -c Release
+        run:  dotnet publish -f net8.0-android -c Release
