@@ -13,7 +13,6 @@
         </Grid.RowDefinitions>
 
         <SearchBar
-            Background="White"
             Text="{Binding SearchText}"
             Placeholder="Search product..." />
 
