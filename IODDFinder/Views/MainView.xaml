@@ -21,7 +21,9 @@
             SelectedItem="{Binding SelectedVendor, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding .}" TextColor="#262626"/>
+                    <TextCell
+                        Text="{Binding }"
+                        TextColor="#262626"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
