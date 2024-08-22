@@ -22,6 +22,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell
+                        x:DataType="x:String"
                         Text="{Binding }"
                         TextColor="#262626"/>
                 </DataTemplate>
