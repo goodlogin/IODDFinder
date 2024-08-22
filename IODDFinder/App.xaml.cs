@@ -4,9 +4,9 @@ public partial class App : Application
 {
 	public App()
 	{
-		InitializeComponent();
+        UserAppTheme = AppTheme.Light;
 
-		UserAppTheme = AppTheme.Light;
+        InitializeComponent();
 
 		MainPage = new AppShell();
 	}
