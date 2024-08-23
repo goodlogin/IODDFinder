@@ -1,5 +1,4 @@
-﻿using IODDFinder.Models;
-using IODDFinder.ViewModels;
+﻿using IODDFinder.ViewModels;
 
 namespace IODDFinder.Views;
 
@@ -7,13 +6,11 @@ public partial class ProductsView : ContentPage
 {
     private readonly ProductsViewModel _vm;
 
-    public List<Content>? Contants { get; set; }
-
-    public ProductsView(ProductsViewModel vm)
+    public ProductsView(ProductsViewModel productsViewModel)
 	{
 		InitializeComponent();
 
-        _vm = vm;
+        _vm = productsViewModel;
         BindingContext = _vm;
     }
 

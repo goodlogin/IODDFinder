@@ -40,5 +40,13 @@ public class APIService
 
         return response!;
     }
-}
 
+    public async Task<ProductVariantResponse> GetProductVariantAsync(string productVariantId)
+    {
+        var url = $"{BASE_URL}/productvariants/{productVariantId}";
+        var json = await _httpClient.GetStringAsync(url);
+        var response = JsonSerializer.Deserialize<ProductVariantResponse>(json, _serializerOptions);
+
+        return response!;
+    }
+}

@@ -6,13 +6,11 @@ public partial class MainView : ContentPage
 {
 	private readonly MainViewModel _vm;
 
-	public List<string>? Vendors { get; set; }
-
-	public MainView(MainViewModel vm)
+	public MainView(MainViewModel mainViewModel)
 	{
 		InitializeComponent();
 
-        _vm = vm;
+        _vm = mainViewModel;
         BindingContext = _vm;
     }
 

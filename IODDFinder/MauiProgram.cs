@@ -43,6 +43,7 @@ public static class MauiProgram
     {
         mauiAppBuilder.Services.AddSingleton<MainViewModel>();
         mauiAppBuilder.Services.AddTransient<ProductsViewModel>();
+        mauiAppBuilder.Services.AddTransient<ProductDetailsViewModel>();
 
         // More view-models registered here.
 
@@ -53,6 +54,7 @@ public static class MauiProgram
     {
         mauiAppBuilder.Services.AddSingleton<MainView>();
         mauiAppBuilder.Services.AddTransient<ProductsView>();
+        mauiAppBuilder.Services.AddTransient<ProductDetailsView>();
 
         // More views registered here.
 

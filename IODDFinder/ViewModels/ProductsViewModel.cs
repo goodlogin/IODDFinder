@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using IODDFinder.Models;
 using IODDFinder.Services;
+using IODDFinder.Views;
 
 namespace IODDFinder.ViewModels;
 
@@ -39,7 +40,14 @@ public class ProductsViewModel : ObservableObject, IQueryAttributable
     public Content? SelectedContent
     {
         get => null;
-        set => SetProperty(ref _selectedContent, value);
+        set
+        {
+            SetProperty(ref _selectedContent, value);
+            OnPropertyChanged(nameof(SelectedContent)); // to fix selected item on back navigation
+            Shell.Current.GoToAsync($"{nameof(ProductDetailsView)}" +
+                $"?productName={_selectedContent!.ProductName}" +
+                $"&productVariantId={_selectedContent!.ProductVariantId}");
+        }
     }
 
     public ProductsViewModel(APIService apiService)
