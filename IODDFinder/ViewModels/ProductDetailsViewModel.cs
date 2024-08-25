@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using IODDFinder.Models;
 using IODDFinder.Services;
@@ -8,6 +9,8 @@ namespace IODDFinder.ViewModels;
 public class ProductDetailsViewModel : ObservableObject, IQueryAttributable
 {
     private readonly APIService _apiService;
+
+    public ICommand DownloadCommand { get; set; }
 
     private string? _productVariantId;
     public string? ProductVariantId
@@ -41,6 +44,11 @@ public class ProductDetailsViewModel : ObservableObject, IQueryAttributable
     public ProductDetailsViewModel(APIService apiService)
     {
         _apiService = apiService;
+
+        DownloadCommand = new Command(() =>
+        {
+            Launcher.OpenAsync($"https://ioddfinder.io-link.com/api/vendors/{ProductVariant!.Iodd!.Vendor!.VendorId}/iodds/{ProductVariant!.Iodd!.Id}/files/zip/rated");
+        });
     }
 
     public async Task FetchVariantProductAsync()
