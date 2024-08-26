@@ -1,4 +1,6 @@
-﻿using IODDFinder.Services;
+﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Storage;
+using IODDFinder.Services;
 using IODDFinder.ViewModels;
 using IODDFinder.Views;
 using Microsoft.Extensions.Logging;
@@ -10,8 +12,9 @@ public static class MauiProgram
 	public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
-		builder
-			.UseMauiApp<App>()
+        builder
+            .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
             .RegisterServices()
             .RegisterViewModels()
             .RegisterViews()
@@ -33,6 +36,7 @@ public static class MauiProgram
         //mauiAppBuilder.Services.AddTransient<ILoggingService, LoggingService>();
         //mauiAppBuilder.Services.AddTransient<ISettingsService, SettingsService>();
         mauiAppBuilder.Services.AddTransient<APIService>();
+        mauiAppBuilder.Services.AddSingleton<IFileSaver>(FileSaver.Default);
 
         // More services registered here.
 
