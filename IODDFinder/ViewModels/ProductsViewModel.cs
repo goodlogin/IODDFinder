@@ -1,12 +1,11 @@
 ﻿using System.Web;
-using CommunityToolkit.Mvvm.ComponentModel;
 using IODDFinder.Models;
 using IODDFinder.Services;
 using IODDFinder.Views;
 
 namespace IODDFinder.ViewModels;
 
-public class ProductsViewModel : ObservableObject, IQueryAttributable
+public class ProductsViewModel : BaseViewModel, IQueryAttributable
 {
     private readonly APIService _apiService;
 

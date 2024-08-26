@@ -10,6 +10,7 @@ public partial class AppShell : Shell
 
         Routing.RegisterRoute(nameof(ProductsView), typeof(ProductsView));
         Routing.RegisterRoute(nameof(ProductDetailsView), typeof(ProductDetailsView));
+        Routing.RegisterRoute(nameof(IODDViewerView), typeof(IODDViewerView));
     }
 }
 

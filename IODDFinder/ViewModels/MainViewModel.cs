@@ -1,10 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using IODDFinder.Services;
+﻿using IODDFinder.Services;
 using IODDFinder.Views;
 
 namespace IODDFinder.ViewModels;
 
-public class MainViewModel : ObservableObject
+public class MainViewModel : BaseViewModel
 {
     private readonly APIService _apiService;
 

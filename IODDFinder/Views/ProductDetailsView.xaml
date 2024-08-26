@@ -17,6 +17,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <VerticalStackLayout
                 Margin="0,20,0,0"
@@ -63,6 +64,13 @@
                 BackgroundColor="#4c7fbc"
                 Command="{Binding DownloadCommand}"
                 Text="{Binding ProductVariant.Iodd.DriverName, StringFormat='Download {0}'}"/>
+            <Button
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Margin="20,0,20,20"
+                BackgroundColor="#4c7fbc"
+                Command="{Binding ViewCommand}"
+                Text="IODD Viewer"/>
         </Grid>
 
     </ScrollView>
