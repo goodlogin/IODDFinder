@@ -8,12 +8,13 @@ namespace IODDFinder.ViewModels;
 public class ProductsViewModel : BaseViewModel, IQueryAttributable
 {
     private readonly APIService _apiService;
+    private readonly NavigationService _navigationService;
 
-    private string? _vendor;
-    public string? Vendor
+    private string? _vendorName;
+    public string? VendorName
     {
-        get => _vendor;
-        set => SetProperty(ref _vendor, value);
+        get => _vendorName;
+        set => SetProperty(ref _vendorName, value);
     }
 
     private string? _searchText;
@@ -43,29 +44,30 @@ public class ProductsViewModel : BaseViewModel, IQueryAttributable
         {
             SetProperty(ref _selectedContent, value);
             OnPropertyChanged(nameof(SelectedContent)); // to fix selected item on back navigation
-            Shell.Current.GoToAsync(nameof(ProductDetailsView),
-                new Dictionary<string, object>
-                {
-                    {  "productName", _selectedContent!.ProductName! },
-                    {  "productVariantId", _selectedContent!.ProductVariantId! }
-                });
+
+            _navigationService.GoToProductDetailsPageAsync(
+                _selectedContent!.ProductName!,
+                _selectedContent!.ProductVariantId!);
         }
     }
 
-    public ProductsViewModel(APIService apiService)
+    public ProductsViewModel(
+        APIService apiService,
+        NavigationService navigationService)
     {
         _apiService = apiService;
+        _navigationService = navigationService;
     }
 
     public async Task FetchDriversAsync()
     {
-        var drivers = await _apiService.GetDriversAsync(Vendor!);
+        var drivers = await _apiService.GetDriversAsync(VendorName!);
         Contents = drivers.Content
             .OrderBy(x => x.ProductName).ToList();
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        Vendor = HttpUtility.UrlDecode(query["vendor"].ToString());
+        VendorName = HttpUtility.UrlDecode(query["vendorName"].ToString());
     }
 }

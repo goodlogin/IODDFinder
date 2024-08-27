@@ -36,6 +36,7 @@ public static class MauiProgram
         //mauiAppBuilder.Services.AddTransient<ILoggingService, LoggingService>();
         //mauiAppBuilder.Services.AddTransient<ISettingsService, SettingsService>();
         mauiAppBuilder.Services.AddTransient<APIService>();
+        mauiAppBuilder.Services.AddTransient<NavigationService>();
         mauiAppBuilder.Services.AddSingleton<IFileSaver>(FileSaver.Default);
 
         // More services registered here.

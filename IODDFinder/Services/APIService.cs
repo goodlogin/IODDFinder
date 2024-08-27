@@ -103,4 +103,27 @@ public class APIService
             };
         }
     }
+
+    public async Task<IoddZipResponse> GetIoddZipAsync(int vendorId, int ioddId)
+    {
+        try
+        {
+            var url = $"https://ioddfinder.io-link.com/api/vendors/{vendorId}/iodds/{ioddId}/files/zip/rated";
+
+            var httpResponseMessage = await _httpClient.GetAsync(url);
+            var byteArray = await httpResponseMessage.Content.ReadAsByteArrayAsync();
+
+            return new IoddZipResponse
+            {
+                ZipByteArray = byteArray
+            };
+        }
+        catch (Exception ex)
+        {
+            return new IoddZipResponse
+            {
+                Error = ex.Message
+            };
+        }
+    }
 }

@@ -6,6 +6,7 @@ namespace IODDFinder.ViewModels;
 public class MainViewModel : BaseViewModel
 {
     private readonly APIService _apiService;
+    private readonly NavigationService _navigationService;
 
     private string? _searchText;
     public string? SearchText
@@ -34,13 +35,17 @@ public class MainViewModel : BaseViewModel
         {
             SetProperty(ref _selectedVendor, value);
             OnPropertyChanged(nameof(SelectedVendor)); // to fix selected item on back navigation
-            Shell.Current.GoToAsync($"{nameof(ProductsView)}?vendor={_selectedVendor}");
+
+            _navigationService.GoToProductsPageAsync(_selectedVendor!);
         }
     }
 
-    public MainViewModel(APIService apiService)
+    public MainViewModel(
+        APIService apiService,
+        NavigationService navigationService)
     {
         _apiService = apiService;
+        _navigationService = navigationService;
     }
 
     public async Task FetchVendorsAsync()

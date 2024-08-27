@@ -5,7 +5,7 @@
              xmlns:models="clr-namespace:IODDFinder.Models"
              x:Class="IODDFinder.Views.ProductsView"
              x:DataType="viewmodels:ProductsViewModel"
-             Title="{Binding Vendor}">
+             Title="{Binding VendorName}">
      <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

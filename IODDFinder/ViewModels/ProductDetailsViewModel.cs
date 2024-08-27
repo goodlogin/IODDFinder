@@ -5,13 +5,13 @@ using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Storage;
 using IODDFinder.Models;
 using IODDFinder.Services;
-using IODDFinder.Views;
 
 namespace IODDFinder.ViewModels;
 
 public class ProductDetailsViewModel : BaseViewModel, IQueryAttributable
 {
     private readonly APIService _apiService;
+    private readonly NavigationService _navigationService;
     private readonly IFileSaver _fileSaver;
 
     public ICommand DownloadCommand { get; set; }
@@ -46,22 +46,23 @@ public class ProductDetailsViewModel : BaseViewModel, IQueryAttributable
     public string? VendorLogo => $"https://ioddfinder.io-link.com/api/productvariants/{_productVariantId}/files/vendorLogo";
     public string? DeviceImage => $"https://ioddfinder.io-link.com/api/productvariants/{_productVariantId}/files/symbol";
 
-    public ProductDetailsViewModel(APIService apiService, IFileSaver fileSaver)
+    public ProductDetailsViewModel(
+        APIService apiService,
+        NavigationService navigationService,
+        IFileSaver fileSaver)
     {
         _apiService = apiService;
+        _navigationService = navigationService;
         _fileSaver = fileSaver;
 
         DownloadCommand = new Command(async () => await SaveIODDZipAsync());
 
         ViewCommand = new Command(() =>
         {
-            Shell.Current.GoToAsync(nameof(IODDViewerView),
-                new Dictionary<string, object>
-                {
-                    {  "productName", _productVariant!.ProductName! },
-                    {  "vendorId", _productVariant!.Vendor!.VendorId! },
-                    {  "deviceId", _productVariant!.Iodd!.DeviceId },
-                });
+            _navigationService.GoToIODDViewerPageAsync(
+                _productVariant!.ProductName!,
+                _productVariant!.Vendor!.VendorId,
+                _productVariant!.Iodd!.DeviceId);
         });
     }
 
@@ -78,13 +79,22 @@ public class ProductDetailsViewModel : BaseViewModel, IQueryAttributable
 
     private async Task SaveIODDZipAsync()
     {
-        var url = $"https://ioddfinder.io-link.com/api/vendors/{ProductVariant!.Iodd!.Vendor!.VendorId}/iodds/{ProductVariant!.Iodd!.Id}/files/zip/rated";
+        var zipResponse = await _apiService.GetIoddZipAsync(
+            ProductVariant!.Vendor!.VendorId,
+            ProductVariant!.Iodd!.Id);
 
-        using var stream = new MemoryStream(Encoding.Default.GetBytes("Hello from the Community Toolkit!"));
-        var fileSaverResult = await _fileSaver.SaveAsync("test.txt", stream);
+        if (zipResponse.HasError)
+        {
+            // TODO: show error
+            return;
+        }
+
+        var fileName = $"{ProductVariant.Iodd.DeviceName!}.zip";
+        using var stream = new MemoryStream(zipResponse.ZipByteArray!);
+        var fileSaverResult = await _fileSaver.SaveAsync(fileName, stream);
         if (fileSaverResult.IsSuccessful)
         {
-            await Toast.Make($"The file was saved successfully to location: {fileSaverResult.FilePath}").Show();
+            await Toast.Make($"The file '{fileName}' was saved successfully to: {fileSaverResult.FilePath}").Show();
         }
         else
         {
