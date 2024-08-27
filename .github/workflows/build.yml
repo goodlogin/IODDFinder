@@ -29,11 +29,6 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Update App Version
-        run: |
-          sed -i.back 's|<ApplicationVersion>\(.*\)</ApplicationVersion>|<ApplicationVersion>${{ github.run_number }}</ApplicationVersion>|g' './IODDFinder/IODDFinder.csproj'
-          cat './IODDFinder/IODDFinder.csproj'
-
       # iOS SECTION
       - name: Setup iOS Certificate
         uses: apple-actions/import-codesign-certs@v1
