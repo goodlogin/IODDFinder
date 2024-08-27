@@ -4,12 +4,19 @@ namespace IODDFinder.Views;
 
 public partial class IODDViewerView : ContentPage
 {
-	private readonly IODDViewerViewModel _ioddViewerViewModel;
+	private readonly IODDViewerViewModel _vm;
 
     public IODDViewerView(IODDViewerViewModel ioddViewerViewModel)
 	{
 		InitializeComponent();
-        _ioddViewerViewModel = ioddViewerViewModel;
-		BindingContext = _ioddViewerViewModel;
+        _vm = ioddViewerViewModel;
+		BindingContext = _vm;
 	}
+
+    protected async override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        await _vm.FetchVariantProductMenuAsync();
+    }
 }

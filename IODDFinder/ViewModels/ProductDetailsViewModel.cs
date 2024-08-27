@@ -55,9 +55,13 @@ public class ProductDetailsViewModel : BaseViewModel, IQueryAttributable
 
         ViewCommand = new Command(() =>
         {
-            Shell.Current.GoToAsync($"{nameof(IODDViewerView)}" +
-                $"?productName={_productVariant!.ProductName}" +
-                $"&productVariantId={_productVariant!.Id}");
+            Shell.Current.GoToAsync(nameof(IODDViewerView),
+                new Dictionary<string, object>
+                {
+                    {  "productName", _productVariant!.ProductName! },
+                    {  "vendorId", _productVariant!.Vendor!.VendorId! },
+                    {  "deviceId", _productVariant!.Iodd!.DeviceId },
+                });
         });
     }
 

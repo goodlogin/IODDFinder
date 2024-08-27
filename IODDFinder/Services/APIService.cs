@@ -49,4 +49,13 @@ public class APIService
 
         return response!;
     }
+
+    public async Task<ProductVariantMenuResponse> GetProductVariantMenusAsync(string vendorId, string deviceId)
+    {
+        var url = $"{BASE_URL}/productvariants/{vendorId}/{deviceId}/viewer?version=1.1";
+        var json = await _httpClient.GetStringAsync(url);
+        var response = JsonSerializer.Deserialize<ProductVariantMenuResponse>(json, _serializerOptions);
+
+        return response!;
+    }
 }

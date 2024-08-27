@@ -1,14 +1,23 @@
 ﻿using System.Web;
+using IODDFinder.Models;
+using IODDFinder.Services;
 
 namespace IODDFinder.ViewModels;
 
-public class IODDViewerViewModel : BaseViewModel
+public class IODDViewerViewModel : BaseViewModel, IQueryAttributable
 {
-    private string? _productVariantId;
-    public string? ProductVariantId
+    private string? _vendorId;
+    public string? VendorId
     {
-        get => _productVariantId;
-        set => SetProperty(ref _productVariantId, value);
+        get => _vendorId;
+        set => SetProperty(ref _vendorId, value);
+    }
+
+    private string? deviceId;
+    public string? DeviceId
+    {
+        get => deviceId;
+        set => SetProperty(ref deviceId, value);
     }
 
     private string? _productName;
@@ -18,13 +27,30 @@ public class IODDViewerViewModel : BaseViewModel
         set => SetProperty(ref _productName, value);
     }
 
-    public IODDViewerViewModel()
+    private List<Menu>? _menus;
+    public List<Menu>? Menus
+    {
+        get => _menus;
+        set => SetProperty(ref _menus, value);
+    }
+
+    private readonly APIService _apiService;
+
+    public IODDViewerViewModel(APIService apiService)
 	{
+        _apiService = apiService;
 	}
+
+    public async Task FetchVariantProductMenuAsync()
+    {
+        var response = await _apiService.GetProductVariantMenusAsync(_vendorId!, deviceId!);
+        Menus = response.Menus!;
+    }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        ProductVariantId = query["productVariantId"].ToString();
+        VendorId = query["vendorId"].ToString();
+        DeviceId = query["deviceId"].ToString();
         ProductName = HttpUtility.UrlDecode(query["productName"].ToString());
     }
 }

@@ -31,15 +31,3 @@ public class Iodd
 public class ProductVariantMd
 {
 }
-
-public class Product
-{
-    public string? ProductId { get; set; }
-}
-
-public class Vendor
-{
-    public string? Name { get; set; }
-    public int VendorId { get; set; }
-    public string? Url { get; set; }
-}

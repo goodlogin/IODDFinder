@@ -2,10 +2,19 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IODDFinder.Views.IODDViewerView"
+             xmlns:models="clr-namespace:IODDFinder.Models"
              xmlns:viewModels="clr-namespace:IODDFinder.ViewModels"
              x:DataType="viewModels:IODDViewerViewModel"
              Title="{Binding ProductName}">
-    <VerticalStackLayout>
-       
-    </VerticalStackLayout>
+    <ListView
+        ItemsSource="{Binding Menus}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <TextCell
+                    x:DataType="models:Menu"
+                    Text="{Binding Name}"
+                    TextColor="#262626"/>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 </ContentPage>
