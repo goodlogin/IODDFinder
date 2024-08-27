@@ -43,9 +43,12 @@ public class ProductsViewModel : BaseViewModel, IQueryAttributable
         {
             SetProperty(ref _selectedContent, value);
             OnPropertyChanged(nameof(SelectedContent)); // to fix selected item on back navigation
-            Shell.Current.GoToAsync($"{nameof(ProductDetailsView)}" +
-                $"?productName={_selectedContent!.ProductName}" +
-                $"&productVariantId={_selectedContent!.ProductVariantId}");
+            Shell.Current.GoToAsync(nameof(ProductDetailsView),
+                new Dictionary<string, object>
+                {
+                    {  "productName", _selectedContent!.ProductName! },
+                    {  "productVariantId", _selectedContent!.ProductVariantId! }
+                });
         }
     }
 

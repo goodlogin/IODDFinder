@@ -1,6 +1,6 @@
 ﻿namespace IODDFinder.Models;
 
-public class VendorsResponse
+public class VendorsResponse : BaseResponse
 {
-	public required List<string> Vendors { get; set; }
+	public List<string>? Vendors { get; set; }
 }

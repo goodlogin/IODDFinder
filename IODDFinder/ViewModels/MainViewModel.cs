@@ -45,9 +45,15 @@ public class MainViewModel : BaseViewModel
 
     public async Task FetchVendorsAsync()
     {
-        var vendors = await _apiService.GetVendorsAsync();
-        Vendors = vendors.Vendors
-            .OrderBy(x => x).ToList();
+        var vendorsResponse = await _apiService.GetVendorsAsync();
+        if (vendorsResponse.HasError)
+        {
+            // TODO: show error/message panel(set STATE_ERROR)
+            // vendorsResponse.Error
+            return;
+        }
+
+        Vendors = vendorsResponse.Vendors!
+                .OrderBy(x => x).ToList();
     }
 }
-

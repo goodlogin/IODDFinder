@@ -1,6 +1,6 @@
 ﻿namespace IODDFinder.Models;
 
-public class DriversResponse
+public class DriversResponse : BaseResponse
 {
     public List<Content> Content { get; set; } = new List<Content>();
     public int Number { get; set; }

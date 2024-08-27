@@ -1,6 +1,6 @@
 ﻿namespace IODDFinder.Models;
 
-public class ProductVariantResponse
+public class ProductVariantResponse : BaseResponse
 {
     public int Id { get; set; }
     public string? ProductName { get; set; }

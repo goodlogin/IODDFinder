@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using System.Web;
 using IODDFinder.Models;
 
 namespace IODDFinder.Services;
@@ -13,7 +12,7 @@ public class APIService
 
     public APIService()
 	{
-		_httpClient = new HttpClient();
+		_httpClient = new HttpClient() { Timeout = TimeSpan.FromSeconds(3) };
         _serializerOptions = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -23,39 +22,85 @@ public class APIService
 
 	public async Task<VendorsResponse> GetVendorsAsync()
 	{
-		var json = await _httpClient.GetStringAsync($"{BASE_URL}/drivers/vendors");
-        var vendors = JsonSerializer.Deserialize<List<string>>(json, _serializerOptions);
-
-        return new VendorsResponse()
+        try
         {
-            Vendors = vendors ?? new List<string>()
-        };
+            var url = $"{BASE_URL}/drivers/vendors";
+            var httpResponseMessage = await _httpClient.GetAsync(url);
+            var json = await httpResponseMessage.Content.ReadAsStringAsync();
+            var vendors = JsonSerializer.Deserialize<List<string>>(json, _serializerOptions);
+
+            return new VendorsResponse()
+            {
+                Vendors = vendors
+            };
+        }
+        catch (Exception ex)
+        {
+            return new VendorsResponse
+            {
+                Error = ex.Message
+            };
+        }
     }
 
     public async Task<DriversResponse> GetDriversAsync(string vendorName)
     {
-        var url = $"{BASE_URL}/drivers?page=0&size=100000&status=APPROVED&status=UPLOADED&vendorName={vendorName}";
-        var json = await _httpClient.GetStringAsync(url);
-        var response = JsonSerializer.Deserialize<DriversResponse>(json, _serializerOptions);
+        try
+        {
+            var url = $"{BASE_URL}/drivers?page=0&size=100000&status=APPROVED&status=UPLOADED&vendorName={vendorName}";
+            var httpResponseMessage = await _httpClient.GetAsync(url);
+            var json = await httpResponseMessage.Content.ReadAsStringAsync();
+            var response = JsonSerializer.Deserialize<DriversResponse>(json, _serializerOptions);
 
-        return response!;
+            return response!;
+        }
+        catch (Exception ex)
+        {
+            return new DriversResponse
+            {
+                Error = ex.Message
+            };
+        }
     }
 
     public async Task<ProductVariantResponse> GetProductVariantAsync(string productVariantId)
     {
-        var url = $"{BASE_URL}/productvariants/{productVariantId}";
-        var json = await _httpClient.GetStringAsync(url);
-        var response = JsonSerializer.Deserialize<ProductVariantResponse>(json, _serializerOptions);
+        try
+        {
+            var url = $"{BASE_URL}/productvariants/{productVariantId}";
+            var httpResponseMessage = await _httpClient.GetAsync(url);
+            var json = await httpResponseMessage.Content.ReadAsStringAsync();
+            var response = JsonSerializer.Deserialize<ProductVariantResponse>(json, _serializerOptions);
 
-        return response!;
+            return response!;
+        }
+        catch (Exception ex)
+        {
+            return new ProductVariantResponse
+            {
+                Error = ex.Message
+            };
+        }
     }
 
     public async Task<ProductVariantMenuResponse> GetProductVariantMenusAsync(string vendorId, string deviceId)
     {
-        var url = $"{BASE_URL}/productvariants/{vendorId}/{deviceId}/viewer?version=1.1";
-        var json = await _httpClient.GetStringAsync(url);
-        var response = JsonSerializer.Deserialize<ProductVariantMenuResponse>(json, _serializerOptions);
+        try
+        {
+            var url = $"{BASE_URL}/productvariants/{vendorId}/{deviceId}/viewer?version=1.1";
 
-        return response!;
+            var httpResponseMessage = await _httpClient.GetAsync(url);
+            var json = await httpResponseMessage.Content.ReadAsStringAsync();
+            var response = JsonSerializer.Deserialize<ProductVariantMenuResponse>(json, _serializerOptions);
+
+            return response!;
+        }
+        catch (Exception ex)
+        {
+            return new ProductVariantMenuResponse
+            {
+                Error = ex.Message
+            };
+        }
     }
 }
