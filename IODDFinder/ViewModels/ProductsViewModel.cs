@@ -1,7 +1,6 @@
 ﻿using System.Web;
 using IODDFinder.Models;
 using IODDFinder.Services;
-using IODDFinder.Views;
 
 namespace IODDFinder.ViewModels;
 
@@ -31,8 +30,10 @@ public class ProductsViewModel : BaseViewModel, IQueryAttributable
     public List<Content>? _contents;
     public List<Content>? Contents
     {
-        get => _contents?.Where(x => x.ProductName.Contains(SearchText ?? "",
-            StringComparison.InvariantCultureIgnoreCase)).ToList();
+        get => _contents?.Where(x =>
+                x.ProductName.Contains(SearchText?.Trim() ?? "", StringComparison.InvariantCultureIgnoreCase) ||
+                x.ProductId.Contains(SearchText?.Trim() ?? "", StringComparison.InvariantCultureIgnoreCase)
+            ).ToList();
         set => SetProperty(ref _contents, value);
     }
 
@@ -61,6 +62,11 @@ public class ProductsViewModel : BaseViewModel, IQueryAttributable
 
     public async Task FetchDriversAsync()
     {
+        if (Contents != null)
+        {
+            return;
+        }
+
         var drivers = await _apiService.GetDriversAsync(VendorName!);
         Contents = drivers.Content
             .OrderBy(x => x.ProductName).ToList();

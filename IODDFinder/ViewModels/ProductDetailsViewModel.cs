@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Web;
+﻿using System.Web;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Storage;
@@ -68,6 +67,11 @@ public class ProductDetailsViewModel : BaseViewModel, IQueryAttributable
 
     public async Task FetchVariantProductAsync()
     {
+        if (ProductVariant != null)
+        {
+            return;
+        }
+
         ProductVariant = await _apiService.GetProductVariantAsync(_productVariantId!);
     }
 

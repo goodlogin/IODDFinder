@@ -1,5 +1,4 @@
 ﻿using IODDFinder.Services;
-using IODDFinder.Views;
 
 namespace IODDFinder.ViewModels;
 
@@ -22,7 +21,7 @@ public class MainViewModel : BaseViewModel
     public List<string>? _vendors;
     public List<string>? Vendors
     {
-        get => _vendors?.Where(x => x.Contains(SearchText ?? "",
+        get => _vendors?.Where(x => x.Contains(SearchText?.Trim() ?? "",
             StringComparison.InvariantCultureIgnoreCase)).ToList();
         set => SetProperty(ref _vendors, value);
     }

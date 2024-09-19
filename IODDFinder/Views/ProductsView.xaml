@@ -15,7 +15,7 @@
         <SearchBar
             Background="White"
             Text="{Binding SearchText}"
-            Placeholder="Search product..." />
+            Placeholder="Search by product name, device id..." />
 
         <ListView
             Grid.Row="1"
