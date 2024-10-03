@@ -13,7 +13,7 @@ env:
 
 jobs:
   buildAndroidAndiOS:
-    runs-on: macos-os-15
+    runs-on: macos-15
     
     steps:
       - uses: actions/checkout@v4
