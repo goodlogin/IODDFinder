@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-    DOTNETVERSION: 8.0.x
+    DOTNETVERSION: 9.0.x
 
 jobs:
   buildAndroidAndiOS:
@@ -21,7 +21,7 @@ jobs:
       - name: Setup .NET SDK ${{env.DOTNETVERSION}}
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version:  '${{env.DOTNETVERSION}}'
+          dotnet-version: '${{env.DOTNETVERSION}}'
 
       - name: Install .NET MAUI
         run: dotnet workload install maui
@@ -46,12 +46,12 @@ jobs:
           api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
 
       - name: Build iOS App
-        run: dotnet publish -f net8.0-ios -c Release -p:ApplicationVersion=${{ github.run_number }}
+        run: dotnet publish -f net9.0-ios -c Release -p:ApplicationVersion=${{ github.run_number }}
 
       - name: Publish iOS to TestFlight
         uses: Apple-Actions/upload-testflight-build@v1
         with:
-          app-path: ./IODDFinder/bin/Release/net8.0-ios/ios-arm64/publish/IODDFinder.ipa
+          app-path: ./IODDFinder/bin/Release/net9.0-ios/ios-arm64/publish/IODDFinder.ipa
           issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
           api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
           api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
